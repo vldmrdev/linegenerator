@@ -1,2 +1,2 @@
-[{{ date }}] {{ uri }}:{{ port }} "curl/7.84.0" {{ ip_v4 }} "{{ method }} /get-some-love-for-kubernetes HTTP/1.1" {{ http_code }} http - - "-" [proxy (-) : unix:/var/run/lovegiver/lovegiver.sock 200 ] 800 "0.001" 0.001
+[{{ date }}] {{ uri }}:{{ port }} "curl/7.84.0" {{ ip_v4 }} "{{ method }} /get-some-love-for-kubernetes HTTP/1.1" {{ http_code }} http - - "-" [proxy (-) : unix:/var/run/lovegiver/lovegiver.sock {{ http_code }}  ] 800 "0.001" 0.001
 

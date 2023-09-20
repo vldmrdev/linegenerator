@@ -24,3 +24,17 @@ Options:
 
 `python3 log-generator.py --output test.txt --template web-server-template.txt --lines 10`
  
+
+#### Template variables:
+
+`{{ date }} - date and time, example [2022-07-11 21:55:00]`
+
+`{{ uri }} - web site URL, example www.gooogle.com`
+
+`{{ port }} - random choice from ports list`
+
+`{{ ip_v4 }} - ipv4 generated from Faker`
+
+`{{ method }} - HTTP methods generated from Faker`
+
+`{{ http_code }}  - random choice from HTTP response codes list`

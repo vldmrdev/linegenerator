@@ -1,6 +1,8 @@
 from jinja2 import Environment, FileSystemLoader
 from faker import Faker
 import click
+from random import choice
+import datetime
 
 fake = Faker()
 
@@ -9,10 +11,11 @@ def fake_log(templates_path: str = 'templates/', template: str = 'nginx-log-temp
     environment = Environment(loader=FileSystemLoader(templates_path))
     template = environment.get_template(template)
     content = template.render(
+        date=fake.date_time_between(start_date=datetime.datetime(2022, 4, 4, 16, 11, 35)),  # start_date
         uri=fake.domain_name(),
         ip_v4=fake.ipv4(),
-        port='80',
-        http_code='200',
+        port=choice(['80', '443']),
+        http_code=choice(['200', '500', '404', '302']),
         method=fake.http_method()
     )
     return content
