@@ -7,7 +7,7 @@ import datetime
 fake = Faker()
 
 
-def fake_log(templates_path: str = 'templates/', template: str = 'nginx-log-template.txt'):
+def fake_log(templates_path: str = 'templates/', template: str = 'example-template.txt'):
     environment = Environment(loader=FileSystemLoader(templates_path))
     template = environment.get_template(template)
     content = template.render(
