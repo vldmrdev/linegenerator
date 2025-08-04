@@ -26,7 +26,7 @@ def fake_log(templates_path: str = 'templates/', template: str = 'example-templa
 @click.option('--output', default='output.txt', help='Output file')
 @click.option('--templates_path', default='templates/', help='Templates directory path')
 @click.option('--template', default='web-server-template.txt', help='Template file name')
-def main(lines: int = 1, output: str = 'output.txt', templates_path='templates/', template='nginx-log-template.txt'):
+def main(lines: int = 1, output: str = 'output.txt', templates_path='templates/', template='example-template.txt'):
     with open(output, '+w') as f:
         for _ in range(lines):
             f.writelines((fake_log(templates_path, template)))
