@@ -1,12 +1,12 @@
-### LLGEN is the Log Line Generator
+### Line Generator
 
-This is a simple line-by-line logs generator for testing your scripts and algorithms or other stuff if you need.
+This is a simple string line generator based on templates for generating logs, testing your scripts and algorithms or other stuff if you need.
 
 #### Status: in development
 
 ### Install
 
-```pip install llgen```
+```pip install linegenerator```
 
 
 ### Requirements 
