@@ -8,16 +8,14 @@ This is a simple line-by-line logs generator for testing your scripts and algori
 
 
 ### Requirements 
+- Python >= 3.9
+- click >= 8.0.0 
 
-    Python >= 3.7
-    click >= 8.0.0 
 
+### License 
+[MIT License](LICENSE)
 
-### TODO:
+#### TODO:
 - [ ] Add Templates
 - [ ] Add Faker
 - [ ] Upgrade Readme
-
-### License 
-
-MIT License
