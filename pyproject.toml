@@ -1,6 +1,6 @@
 [project]
 name = "llgen"
-version = "0.1.0a2"
+version = "0.1.0a3"
 description = "CLI tool for generating log lines with customizable templates"
 readme = "README.md"
 license = "MIT"
