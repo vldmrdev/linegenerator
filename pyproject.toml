@@ -9,9 +9,9 @@ description = "CLI tool for generating log lines with customizable templates"
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
-keywords = ["linegenerator", "line-generator", "log-generator", "cli-tool"]
+keywords = ["linegenerator", "line-generator", "log-generator", "cli-tool", "synthetic data"]
 authors = [
-    {name = "Vladimir(vldmrdev)", email = "70532790+vldmrdev@users.noreply.github.com"},
+    { name = "Vladimir(vldmrdev)", email = "70532790+vldmrdev@users.noreply.github.com" },
 ]
 requires-python = ">=3.9"
 classifiers = [
@@ -34,8 +34,12 @@ dependencies = [
 Homepage = "https://github.com/vldmrdev/linegenerator"
 Issues = "https://github.com/vldmrdev/linegenerator/issues"
 
+
 [tool.hatch.version]
 path = "linegenerator/__init__.py"
 
 [tool.hatch.build.targets.wheel]
 include = ["/linegenerator"]
+
+[project.scripts]
+linegenerator-cli = "linegenerator.cli:main"

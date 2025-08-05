@@ -20,4 +20,6 @@ This is a simple string line generator based on templates for generating logs, t
 #### TODO:
 - [ ] Add Templates
 - [ ] Add Faker
-- [ ] Upgrade Readme
+- [ ] Add changelog
+- [ ] Add readthedocs
+- [ ] Add dev mode config
