@@ -2,6 +2,8 @@
 
 This is a simple line-by-line logs generator for testing your scripts and algorithms or other stuff if you need.
 
+#### Status: in development
+
 ### Install
 
 ```pip install llgen```
