@@ -1,0 +1,24 @@
+[project]
+name = "llgen"
+version = "0.1.0a2"
+description = "CLI tool for generating log lines with customizable templates"
+readme = "README.md"
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+authors = [
+    {name = "Vladimir(vldmrdev)", email = "70532790+vldmrdev@users.noreply.github.com"},
+]
+requires-python = ">=3.9"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "click>=8.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/vldmrdev/llgen"
+Issues = "https://github.com/vldmrdev/llgen/issues"
