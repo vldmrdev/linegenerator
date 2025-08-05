@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="llgen",
-    version="0.1.0a",
+    version="0.1.0a2",
     author="Vladimir(vldmrdev)",
     author_email="70532790+vldmrdev@users.noreply.github.com",
     description="CLI tool for generating log lines with customizable templates",
