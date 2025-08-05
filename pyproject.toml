@@ -38,6 +38,9 @@ Issues = "https://github.com/vldmrdev/linegenerator/issues"
 [tool.hatch.version]
 path = "linegenerator/__init__.py"
 
+[tool.hatch.build.targets.sdist]
+include = ["/linegenerator"]
+
 [tool.hatch.build.targets.wheel]
 include = ["/linegenerator"]
 
