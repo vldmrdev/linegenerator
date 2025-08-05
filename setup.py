@@ -8,7 +8,7 @@ setup(
     description="CLI tool for generating log lines with customizable templates",
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
-    url="https://github.com/vladmrdev/llgen",
+    url="https://github.com/vldmrdev/llgen",
     packages=find_packages(),
     classifiers=[
         "Development Status :: 3 - Alpha",
