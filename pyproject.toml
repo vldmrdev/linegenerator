@@ -27,22 +27,28 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
 ]
 dependencies = [
-    "click>=8.0.0",
+    "typer >= 0.16.0",
+    "Faker >= 37.5.3",
 ]
 
 [project.urls]
 Homepage = "https://github.com/vldmrdev/linegenerator"
 Issues = "https://github.com/vldmrdev/linegenerator/issues"
 
+[tool.hatch.build]
+sources = ["src"]
 
 [tool.hatch.version]
-path = "linegenerator/__init__.py"
+path = "src/linegenerator/__init__.py"
 
 [tool.hatch.build.targets.sdist]
-include = ["/linegenerator"]
+include = ["src/linegenerator"]
 
 [tool.hatch.build.targets.wheel]
-include = ["/linegenerator"]
+include = ["src/linegenerator"]
 
 [project.scripts]
 linegenerator-cli = "linegenerator.cli:main"
+
+[project.optional-dependencies]
+test = ["pytest"]
