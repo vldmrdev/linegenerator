@@ -48,7 +48,7 @@ include = ["src/linegenerator"]
 include = ["src/linegenerator"]
 
 [project.scripts]
-linegenerator-cli = "linegenerator.cli:main"
+linegenerator-cli = "linegenerator.cli:app"
 
 [project.optional-dependencies]
 test = ["pytest"]
