@@ -15,8 +15,12 @@ authors = [
 ]
 requires-python = ">=3.9"
 classifiers = [
-    "Development Status :: 3 - Alpha",
+    "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
+    "Intended Audience :: System Administrators",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Education",
     "Operating System :: OS Independent",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
@@ -27,8 +31,8 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
 ]
 dependencies = [
-    "typer >= 0.16.0",
-    "Faker >= 37.5.3",
+    "typer>=0.16.0",
+    "Faker>=37.5.3",
 ]
 
 [project.urls]
@@ -51,4 +55,25 @@ include = ["src/linegenerator"]
 linegenerator-cli = "linegenerator.cli:app"
 
 [project.optional-dependencies]
-test = ["pytest"]
+test = ["pytest", "pytest-cov"]
+lint = ["ruff", "black", "isort", "mypy", "bandit"]
+dev = ["pre-commit"]
+all = [
+    "linegenerator[test]",
+    "linegenerator[lint]",
+    "linegenerator[dev]",
+]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = [
+    "E", # PEP 8
+    "W", # PEP 8
+    "ANN", # type annotation
+]
+
+ignore = [
+  "E501",  # line too long
+]

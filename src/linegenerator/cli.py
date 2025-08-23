@@ -1,5 +1,6 @@
 import typer
 from faker import Faker
+
 from linegenerator.generator import Generators, LinesGenerator
 
 app = typer.Typer(
@@ -11,10 +12,12 @@ app = typer.Typer(
 
 @app.command()
 def main(
-        template: str = typer.Option("Hello, {name}!", "--template", "-t", help="Line template"),
-        count: int = typer.Option(1, "--count", "-n", help="Numbers of lines"),
-        help_generators: bool = typer.Option(False, "-help-generators", help="Show list default generators")
-):
+    template: str = typer.Option("Hello, {name}!", "--template", "-t", help="Line template"),
+    count: int = typer.Option(1, "--count", "-n", help="Numbers of lines"),
+    help_generators: bool = typer.Option(
+        False, "-help-generators", help="Show list default generators"
+    ),
+) -> None:
     faker = Faker()
     faker_gen = Generators(faker)
     lines_gen = LinesGenerator(template, faker_gen, count)
