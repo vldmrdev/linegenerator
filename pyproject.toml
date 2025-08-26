@@ -67,6 +67,10 @@ all = [
 [tool.ruff]
 line-length = 100
 
+exclude = [
+    "tests/",
+]
+
 [tool.ruff.lint]
 select = [
     "E", # PEP 8
@@ -75,5 +79,5 @@ select = [
 ]
 
 ignore = [
-  "E501",  # line too long
+    "E501", # line too long
 ]

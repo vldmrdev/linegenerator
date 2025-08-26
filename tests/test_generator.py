@@ -1,5 +1,6 @@
 import pytest
 from faker import Faker
+
 from linegenerator import Generators, LinesGenerator
 
 

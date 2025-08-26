@@ -25,15 +25,16 @@ class Generators:
         ]
         for method_name in default_faker_methods:
             if hasattr(self.fake_gen, method_name):
+
                 def make_gen(method: str) -> Callable[..., str]:
                     return lambda: getattr(self.fake_gen, method)()
 
                 self.__generators[method_name] = make_gen(method_name)
 
-    def get_generator(self, name: str) -> Callable[..., str]:
+    def get_generator(self, name: str) -> Callable[..., str]:  # no
         if name not in self.__generators:
             raise ValueError("Invalid generator name")
-        return self.__generators.get(name)
+        return self.__generators.get(name)  # type: ignore
 
     def has_generator(self, name: str) -> bool:
         return name in self.__generators
@@ -74,6 +75,7 @@ class LinesGenerator:
     def lines_generator(self) -> Generator[str, None, None]:
         for _ in range(self.line_count):
             yield self.one_line_generator()
+
 
 # TODO: add export to file option
 # TODO: add docstrings
