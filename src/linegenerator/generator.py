@@ -25,7 +25,6 @@ class Generators:
         ]
         for method_name in default_faker_methods:
             if hasattr(self.fake_gen, method_name):
-
                 def make_gen(method: str) -> Callable[..., str]:
                     return lambda: getattr(self.fake_gen, method)()
 
@@ -72,10 +71,9 @@ class LinesGenerator:
 
         return self.line_template.format(**generated_data)
 
-    def lines_generator(self) -> Generator[str]:
+    def lines_generator(self) -> Generator[str, None, None]:
         for _ in range(self.line_count):
             yield self.one_line_generator()
-
 
 # TODO: add export to file option
 # TODO: add docstrings

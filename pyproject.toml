@@ -55,7 +55,7 @@ include = ["src/linegenerator"]
 linegenerator-cli = "linegenerator.cli:app"
 
 [project.optional-dependencies]
-test = ["pytest", "pytest-cov"]
+test = ["pytest", "pytest-cov", "pytest-mock"]
 lint = ["ruff", "black", "isort", "mypy", "bandit"]
 dev = ["pre-commit"]
 all = [
