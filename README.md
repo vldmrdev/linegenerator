@@ -1,5 +1,7 @@
 [![CodeQL](https://github.com/vldmrdev/linegenerator/actions/workflows/codeql.yml/badge.svg)](https://github.com/USERNAME/REPO_NAME/actions/workflows/codeql.yml)
 [![Lint & Format](https://github.com/vldmrdev/linegenerator/actions/workflows/linters.yml/badge.svg)](https://github.com/ldmrdev/linegenerator/actions/workflows/linters.yml)
+![Tests](https://github.com/vldmrdev/linegenerator/actions/workflows/tests.yml/badge.svg)
+
 ### Line Generator
 
 This is a simple string line generator based on templates for generating logs, testing your scripts and algorithms or
@@ -29,7 +31,7 @@ Show autocompletion script:
 
 ### Examples:
 
-```linegenerator-cli --template "Hello, {name}, wellcom to {city}!" --count 10```
+```linegenerator-cli --template "Hello, {name}, wellcom to {city}!" --count 3```
 
 output:
 
