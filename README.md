@@ -1,7 +1,7 @@
 [![PyPI version](https://img.shields.io/pypi/v/linegenerator.svg)](https://pypi.org/project/linegenerator/)
-[![CodeQL](https://github.com/vldmrdev/linegenerator/actions/workflows/codeql.yml/badge.svg)](https://github.com/USERNAME/REPO_NAME/actions/workflows/codeql.yml)
+[![CodeQL](https://github.com/vldmrdev/linegenerator/actions/workflows/codeql.yml/badge.svg)](https://github.com/vldmrdev/linegenerator/actions/workflows/codeql.yml)
 [![Lint & Format](https://github.com/vldmrdev/linegenerator/actions/workflows/linters.yml/badge.svg)](https://github.com/ldmrdev/linegenerator/actions/workflows/linters.yml)
-![Tests](https://github.com/vldmrdev/linegenerator/actions/workflows/tests.yml/badge.svg)
+[![Tests](https://github.com/vldmrdev/linegenerator/actions/workflows/tests.yml/badge.svg)](https://github.com/vldmrdev/linegenerator/actions/workflows/tests.yml)
 
 ### Line Generator
 
