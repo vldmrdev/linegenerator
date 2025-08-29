@@ -16,14 +16,15 @@ class Generators:
         __generators (dict[str, Callable[..., str]]): A private mapping of generator names to callables.
     """
 
-    def __init__(self, fake_gen: Faker) -> None:
-        self.fake_gen: Faker = fake_gen
+    def __init__(self, synthetic_generator: Faker) -> None:
+        self.fake_gen: Faker = synthetic_generator
         self.__generators: dict[str, Callable[..., str]] = {}
         self._register_default_generators()
 
     def __setattr__(self, key, value):
-        if key == 'fake_gen' and not isinstance(value, Faker):
-            raise TypeError("fake_gen must be an instance of Faker.")
+        if key == 'synthetic_generator' and not isinstance(value, Faker):
+            raise TypeError("synth_generator must be an instance of Faker.")
+        super().__setattr__(key, value)
 
     def _register_default_generators(self) -> None:
         """Registers default Faker-based generators for common data fields.
@@ -81,9 +82,8 @@ class Generators:
         """
         return name in self.__generators
 
-    # TODO: template method
     def get_all_generators(self) -> dict[str, Callable[..., str]]:
-        return self.__generators
+        return self.__generators.copy()
 
     # TODO: add custom generator option
 
@@ -169,4 +169,3 @@ class LinesGenerator:
             yield self.one_line_generator()
 
 # TODO: add export to file option
-
