@@ -21,6 +21,10 @@ class Generators:
         self.__generators: dict[str, Callable[..., str]] = {}
         self._register_default_generators()
 
+    def __setattr__(self, key, value):
+        if key == 'fake_gen' and not isinstance(value, Faker):
+            raise TypeError("fake_gen must be an instance of Faker.")
+
     def _register_default_generators(self) -> None:
         """Registers default Faker-based generators for common data fields.
 
@@ -63,7 +67,7 @@ class Generators:
             ValueError: If no generator exists with the given name.
         """
         if name not in self.__generators:
-            raise ValueError("Invalid generator name")
+            raise ValueError(f"Invalid generator name: '{name}'")
         return self.__generators.get(name)  # type: ignore
 
     def has_generator(self, name: str) -> bool:
@@ -102,6 +106,17 @@ class LinesGenerator:
         self.data_generator: Generators = data_generator
         self.line_count: int = line_count
         self._template_fields_list: list = self._extract_fields(self.line_template)
+
+    def __setattr__(self, key, value):
+        if key == 'line_template' and not isinstance(value, str):
+            raise TypeError("line_template must be a string.")
+        elif key == 'data_generator' and not isinstance(value, Generators):
+            raise TypeError("data_generator must be an instance of Generators.")
+        elif key == 'line_count' and (not isinstance(value, int) or value <= 0):
+            raise ValueError("line_count must be a positive integer.")
+        elif key == '_template_fields_list' and not isinstance(value, list):
+            raise TypeError("_template_fields_list must be a list.")
+        super().__setattr__(key, value)
 
     def _extract_fields(self, template: str) -> list[str]:
         """Extracts placeholder field names from a template string.
