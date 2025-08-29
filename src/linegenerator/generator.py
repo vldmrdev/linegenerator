@@ -21,8 +21,8 @@ class Generators:
         self.__generators: dict[str, Callable[..., str]] = {}
         self._register_default_generators()
 
-    def __setattr__(self, key, value):
-        if key == 'synthetic_generator' and not isinstance(value, Faker):
+    def __setattr__(self, key: str, value: object) -> None:
+        if key == "synthetic_generator" and not isinstance(value, Faker):
             raise TypeError("synth_generator must be an instance of Faker.")
         super().__setattr__(key, value)
 
@@ -50,6 +50,7 @@ class Generators:
         ]
         for method_name in default_faker_methods:
             if hasattr(self.fake_gen, method_name):
+
                 def make_gen(method: str) -> Callable[..., str]:
                     return lambda: getattr(self.fake_gen, method)()
 
@@ -107,14 +108,14 @@ class LinesGenerator:
         self.line_count: int = line_count
         self._template_fields_list: list = self._extract_fields(self.line_template)
 
-    def __setattr__(self, key, value):
-        if key == 'line_template' and not isinstance(value, str):
+    def __setattr__(self, key: str, value: object) -> None:
+        if key == "line_template" and not isinstance(value, str):
             raise TypeError("line_template must be a string.")
-        elif key == 'data_generator' and not isinstance(value, Generators):
+        elif key == "data_generator" and not isinstance(value, Generators):
             raise TypeError("data_generator must be an instance of Generators.")
-        elif key == 'line_count' and (not isinstance(value, int) or value <= 0):
+        elif key == "line_count" and (not isinstance(value, int) or value <= 0):
             raise ValueError("line_count must be a positive integer.")
-        elif key == '_template_fields_list' and not isinstance(value, list):
+        elif key == "_template_fields_list" and not isinstance(value, list):
             raise TypeError("_template_fields_list must be a list.")
         super().__setattr__(key, value)
 
@@ -167,5 +168,6 @@ class LinesGenerator:
         """
         for _ in range(self.line_count):
             yield self.one_line_generator()
+
 
 # TODO: add export to file option

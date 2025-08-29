@@ -116,12 +116,12 @@ def test_modifying_returned_dict_does_not_affect_original():
     generators = Generators(fake)
 
     original_count = len(generators.get_all_generators())
-    original_has_name = generators.has_generator('name')
+    original_has_name = generators.has_generator("name")
 
     returned_dict = generators.get_all_generators()
-    if 'name' in returned_dict:
-        del returned_dict['name']
+    if "name" in returned_dict:
+        del returned_dict["name"]
 
     assert len(generators.get_all_generators()) == original_count
-    assert generators.has_generator('name') == original_has_name
-    assert 'name' in generators.get_all_generators()
+    assert generators.has_generator("name") == original_has_name
+    assert "name" in generators.get_all_generators()
