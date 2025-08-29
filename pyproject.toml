@@ -5,7 +5,7 @@ build-backend = "hatchling.build"
 [project]
 name = "linegenerator"
 dynamic = ["version"]
-description = "CLI tool for generating log lines with customizable templates"
+description = "CLI tool for generating synthetic data based on line template"
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
