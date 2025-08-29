@@ -5,13 +5,13 @@ from linegenerator import Generators, LinesGenerator
 
 
 @pytest.fixture
-def fake_gen():
+def synth_gen():
     return Faker()
 
 
 @pytest.fixture
-def generators(fake_gen):
-    return Generators(fake_gen)
+def generators(synth_gen):
+    return Generators(synth_gen)
 
 
 @pytest.fixture
@@ -57,16 +57,16 @@ class TestLinesGenerator:
         return "Hello {name} from {city}!"
 
     @pytest.fixture
-    def lines_gen(self, fake_gen, line_template):
-        generators = Generators(fake_gen)
+    def lines_gen(self, synth_gen, line_template):
+        generators = Generators(synth_gen)
         return LinesGenerator(line_template, generators, line_count=3)
 
     def test_extract_fields(self, lines_gen):
         expected = ["name", "city"]
         assert lines_gen._template_fields_list == expected
 
-    def test_one_line_generator(self, fake_gen):
-        generators = Generators(fake_gen)
+    def test_one_line_generator(self, synth_gen):
+        generators = Generators(synth_gen)
         lg = LinesGenerator("Hi {name}!", generators)
         result = lg.one_line_generator()
         assert "{name}" not in result
@@ -81,8 +81,8 @@ class TestLinesGenerator:
             assert "Hello " in line
             assert " from " in line
 
-    def test_unknown_field_in_template(self, fake_gen):
-        generators = Generators(fake_gen)
+    def test_unknown_field_in_template(self, synth_gen):
+        generators = Generators(synth_gen)
         lg = LinesGenerator("Greetings {unknown_field}!", generators)
         result = lg.one_line_generator()
         assert "UNKNOWN_field_[unknown_field]" in result
@@ -108,3 +108,20 @@ class TestLinesGenerator:
             assert "{city}" not in line
             assert "Hello Test User" in line
             assert " from Test City" in line
+
+
+def test_modifying_returned_dict_does_not_affect_original():
+    """Test: delete generator from returned default generator's dict"""
+    fake = Faker()
+    generators = Generators(fake)
+
+    original_count = len(generators.get_all_generators())
+    original_has_name = generators.has_generator('name')
+
+    returned_dict = generators.get_all_generators()
+    if 'name' in returned_dict:
+        del returned_dict['name']
+
+    assert len(generators.get_all_generators()) == original_count
+    assert generators.has_generator('name') == original_has_name
+    assert 'name' in generators.get_all_generators()
