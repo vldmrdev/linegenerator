@@ -22,7 +22,7 @@ class Generators:
         self._register_default_generators()
 
     def __setattr__(self, key: str, value: object) -> None:
-        """ Class attributes validator """
+        """Class attributes validator"""
         if key == "synthetic_generator" and not isinstance(value, Faker):
             raise TypeError("synth_generator must be an instance of Faker.")
         super().__setattr__(key, value)
@@ -110,7 +110,7 @@ class LinesGenerator:
         self._template_fields_list: list = self._extract_fields(self.line_template)
 
     def __setattr__(self, key: str, value: object) -> None:
-        """ Class attributes validator """
+        """Class attributes validator"""
         if key == "line_template" and not isinstance(value, str):
             raise TypeError("line_template must be a string.")
         elif key == "data_generator" and not isinstance(value, Generators):
