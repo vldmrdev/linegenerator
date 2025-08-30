@@ -31,6 +31,8 @@ def mock_generators(mock_faker):
 
 
 class TestGenerators:
+    """Test: Generators class methods"""
+
     def test_init_and_default_generators(self, generators):
         assert "name" in generators.get_all_generators()
         assert "email" in generators.get_all_generators()
@@ -50,8 +52,26 @@ class TestGenerators:
         with pytest.raises(ValueError, match="Invalid generator name"):
             generators.get_generator("invalid_generator")
 
+    def test_hack_generators_dict(self):
+        """Test: delete generator by name from returned default generator's dict"""
+        fake = Faker()
+        generators = Generators(fake)
+
+        original_count = len(generators.get_all_generators())
+        original_has_name = generators.has_generator("name")
+
+        returned_dict = generators.get_all_generators()
+        if "name" in returned_dict:
+            del returned_dict["name"]
+
+        assert len(generators.get_all_generators()) == original_count
+        assert generators.has_generator("name") == original_has_name
+        assert "name" in generators.get_all_generators()
+
 
 class TestLinesGenerator:
+    """Test: LinesGenerator class methods"""
+
     @pytest.fixture
     def line_template(self):
         return "Hello {name} from {city}!"
@@ -108,20 +128,3 @@ class TestLinesGenerator:
             assert "{city}" not in line
             assert "Hello Test User" in line
             assert " from Test City" in line
-
-
-def test_modifying_returned_dict_does_not_affect_original():
-    """Test: delete generator from returned default generator's dict"""
-    fake = Faker()
-    generators = Generators(fake)
-
-    original_count = len(generators.get_all_generators())
-    original_has_name = generators.has_generator("name")
-
-    returned_dict = generators.get_all_generators()
-    if "name" in returned_dict:
-        del returned_dict["name"]
-
-    assert len(generators.get_all_generators()) == original_count
-    assert generators.has_generator("name") == original_has_name
-    assert "name" in generators.get_all_generators()
