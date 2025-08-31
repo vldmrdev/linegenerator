@@ -62,10 +62,8 @@ class Generators:
 
         Args:
             name (str): The name of the generator (e.g., 'email', 'city').
-
         Returns:
             Callable[..., str]: A function that returns a generated string.
-
         Raises:
             ValueError: If no generator exists with the given name.
         """
@@ -78,7 +76,6 @@ class Generators:
 
         Args:
             name (str): The name of the generator to check.
-
         Returns:
             bool: True if the generator exists, False otherwise.
         """
@@ -117,8 +114,6 @@ class LinesGenerator:
             raise TypeError("data_generator must be an instance of Generators.")
         elif key == "line_count" and (not isinstance(value, int) or value <= 0):
             raise ValueError("line_count must be a positive integer.")
-        elif key == "_template_fields_list" and not isinstance(value, list):
-            raise TypeError("_template_fields_list must be a list.")
         super().__setattr__(key, value)
 
     def _extract_fields(self, template: str) -> list[str]:
@@ -128,10 +123,8 @@ class LinesGenerator:
 
         Args:
             template (str): The template string containing placeholders.
-
         Returns:
             list[str]: A list of field names extracted from the template.
-
         Example:
             >>> self._extract_fields("Hello {name}! You live in { city }?")
             ['name', 'city']
@@ -164,7 +157,6 @@ class LinesGenerator:
 
         Yields:
             str: A generated line with fake data, one per iteration.
-
         Note:
             This is a generator function. Use in a loop or convert to list if needed.
         """
@@ -172,4 +164,5 @@ class LinesGenerator:
             yield self.one_line_generator()
 
 
+# TODO: add locales option
 # TODO: add export to file option
