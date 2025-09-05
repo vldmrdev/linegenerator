@@ -4,32 +4,6 @@ from faker import Faker
 from linegenerator import Generators, LinesGenerator
 
 
-@pytest.fixture
-def synth_gen():
-    return Faker()
-
-
-@pytest.fixture
-def generators(synth_gen):
-    return Generators(synth_gen)
-
-
-@pytest.fixture
-def mock_faker_gen(mocker):
-    mock_faker = mocker.Mock()
-    mock_faker.name.return_value = "Test User"
-    mock_faker.email.return_value = "test@example.com"
-    mock_faker.phone.return_value = "+1234567890"
-    mock_faker.city.return_value = "Test City"
-    mock_faker.company.return_value = "Test Company"
-    return mock_faker
-
-
-@pytest.fixture
-def mock_generators(mock_faker):
-    return Generators(mock_faker)
-
-
 class TestGenerators:
     """Test: Generators class methods"""
 
@@ -72,59 +46,43 @@ class TestGenerators:
 class TestLinesGenerator:
     """Test: LinesGenerator class methods"""
 
-    @pytest.fixture
-    def line_template(self):
-        return "Hello {name} from {city}!"
+    def test_extracted_fields_from_template_is_expected(self, short_line_template, generators):
+        lg = LinesGenerator(short_line_template[0], generators, 1)
+        expected = short_line_template[1]
+        assert lg._template_fields_list == expected
 
-    @pytest.fixture
-    def lines_gen(self, synth_gen, line_template):
-        generators = Generators(synth_gen)
-        return LinesGenerator(line_template, generators, line_count=3)
-
-    def test_extract_fields(self, lines_gen):
-        expected = ["name", "city"]
-        assert lines_gen._template_fields_list == expected
-
-    def test_one_line_generator(self, synth_gen):
-        generators = Generators(synth_gen)
-        lg = LinesGenerator("Hi {name}!", generators)
-        result = lg.one_line_generator()
-        assert "{name}" not in result
-        assert "Hi " in result
-
-    def test_lines_generator(self, lines_gen):
-        results = list(lines_gen.lines_generator())
+    @pytest.mark.parametrize(
+        "line_template, expected_fields",
+        [
+            ("Hello {name} from {city}!", ("{name}", "{city}")),
+            (
+                "Welcome to {company}, our phone number is {phone_number}!",
+                ("{company}", "{phone_number}"),
+            ),
+        ],
+    )
+    def test_generate_lines_is_correct(self, line_template, expected_fields, generators):
+        lg = LinesGenerator(line_template, generators, 3)
+        results = list(lg.generate_lines())
         assert len(results) == 3
         for line in results:
-            assert "{name}" not in line
-            assert "{city}" not in line
-            assert "Hello " in line
-            assert " from " in line
+            assert expected_fields[0] not in line
+            assert expected_fields[1] not in line
 
-    def test_unknown_field_in_template(self, synth_gen):
-        generators = Generators(synth_gen)
-        lg = LinesGenerator("Greetings {unknown_field}!", generators)
-        result = lg.one_line_generator()
-        assert "UNKNOWN_field_[unknown_field]" in result
+    def test_lines_generator_when_no_fields(self, generators):
+        template = "This template without fields"
+        lg = LinesGenerator(template, generators, 1)
+        results = list(lg.generate_lines())
+        assert len(results) == 1
+        assert template == results[0]
 
-    # mocked tests
-    @pytest.fixture
-    def lines_mock_gen(self, mock_faker_gen, line_template):
-        generators = Generators(mock_faker_gen)
-        return LinesGenerator(line_template, generators, line_count=3)
+    def test_lines_generator_are_lines_different(self, short_line_template, generators):
+        lg = LinesGenerator(short_line_template[0], generators, 2)
+        results = list(lg.generate_lines())
+        assert len(results) == 2
+        assert results[0] != results[1]
 
-    def test_one_line_mock_generator(self, mock_faker_gen):
-        generators = Generators(mock_faker_gen)
-        lg = LinesGenerator("Hi {name}!", generators)
-        result = lg.one_line_generator()
-        assert "{name}" not in result
-        assert "Hi Test User" in result
-
-    def test_lines_mock_generator(self, lines_mock_gen):
-        results = list(lines_mock_gen.lines_generator())
-        assert len(results) == 3
-        for line in results:
-            assert "{name}" not in line
-            assert "{city}" not in line
-            assert "Hello Test User" in line
-            assert " from Test City" in line
+    def test_unknown_field_in_template(self, short_template_unknown_field, generators):
+        lg = LinesGenerator(short_template_unknown_field[0], generators, 1)
+        result = list(lg.generate_lines())
+        assert short_template_unknown_field[1] in result[0]

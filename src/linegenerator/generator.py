@@ -12,50 +12,28 @@ class Generators:
     Faker methods (like 'name', 'email') and allows future extension with custom generators.
 
     Attributes:
-        fake_gen (Faker): The underlying Faker instance used to generate data.
+        synthetic_generator (Faker): The underlying Faker instance used to generate data.
         __generators (dict[str, Callable[..., str]]): A private mapping of generator names to callables.
     """
 
     def __init__(self, synthetic_generator: Faker) -> None:
-        self.fake_gen: Faker = synthetic_generator
-        self.__generators: dict[str, Callable[..., str]] = {}
-        self._register_default_generators()
+        self.synthetic_generator: Faker = synthetic_generator
+        self.__generators: dict[str, Callable[..., str]] = {
+            "name": self.synthetic_generator.name,
+            "email": self.synthetic_generator.email,
+            "phone_number": self.synthetic_generator.phone_number,
+            "city": self.synthetic_generator.city,
+            "company": self.synthetic_generator.company,
+            "job": self.synthetic_generator.job,
+            "date": self.synthetic_generator.date_object,
+            "address": self.synthetic_generator.address,
+        }
 
     def __setattr__(self, key: str, value: object) -> None:
         """Class attributes validator"""
         if key == "synthetic_generator" and not isinstance(value, Faker):
             raise TypeError("synth_generator must be an instance of Faker.")
         super().__setattr__(key, value)
-
-    def _register_default_generators(self) -> None:
-        """Registers default Faker-based generators for common data fields.
-
-        The following Faker methods are registered if available:
-        'name', 'first_name', 'last_name', 'email', 'phone', 'city',
-        'company', 'job', 'date', 'address'.
-
-        Each method is wrapped in a lambda to ensure correct binding.
-        """
-
-        default_faker_methods = [
-            "name",
-            "first_name",
-            "last_name",
-            "email",
-            "phone",
-            "city",
-            "company",
-            "job",
-            "date",
-            "address",
-        ]
-        for method_name in default_faker_methods:
-            if hasattr(self.fake_gen, method_name):
-
-                def make_gen(method: str) -> Callable[..., str]:
-                    return lambda: getattr(self.fake_gen, method)()
-
-                self.__generators[method_name] = make_gen(method_name)
 
     def get_generator(self, name: str) -> Callable[..., str]:
         """Returns a callable generator by its name.
@@ -97,7 +75,7 @@ class LinesGenerator:
         line_template (str): The template string with placeholders.
         data_generator (Generators): Instance providing fake data generators.
         line_count (int): Number of lines to generate.
-        _template_fields_list (list[str]): List of field names extracted from the template.
+        _template_fields_list (list[str]): List of field names extracted from the line_template.
     """
 
     def __init__(self, line_template: str, data_generator: Generators, line_count: int = 1) -> None:
@@ -131,37 +109,25 @@ class LinesGenerator:
         """
         return re.findall(r"\{\s*([^}]+?)\s*}", template)
 
-    def one_line_generator(self) -> str:
-        """Generates a single formatted line by replacing placeholders with fake data.
-
-        For each field in the template:
-        - If a generator exists, uses generated data.
-        - Otherwise, replaces with 'UNKNOWN_field_[field_name]'.
-
-        Returns:
-            str: A fully formatted string with fake or placeholder data.
-        """
-        generated_data = {}
-        for field in self._template_fields_list:
-            if self.data_generator.has_generator(field):
-                # TODO: add exception
-                fake_data = self.data_generator.get_generator(field)()
-                generated_data[field] = fake_data
-            else:
-                generated_data[field] = f"UNKNOWN_field_[{field}]"
-
-        return self.line_template.format(**generated_data)
-
-    def lines_generator(self) -> Generator[str, None, None]:
+    def generate_lines(self) -> Generator[str, None, None]:
         """Generates multiple formatted lines lazily (one at a time).
 
         Yields:
-            str: A generated line with fake data, one per iteration.
+            str: A generated line with synthetic data, one per iteration.
         Note:
             This is a generator function. Use in a loop or convert to list if needed.
         """
+        fields_generators = {}
+        generated_data = {}
+        for field in self._template_fields_list:
+            if self.data_generator.has_generator(field):
+                fields_generators[field] = self.data_generator.get_generator(field)
+            else:
+                generated_data[field] = f"UNKNOWN_field_[{field}]"
         for _ in range(self.line_count):
-            yield self.one_line_generator()
+            for field, generator in fields_generators.items():
+                generated_data[field] = generator()
+            yield self.line_template.format(**generated_data)
 
 
 # TODO: add locales option

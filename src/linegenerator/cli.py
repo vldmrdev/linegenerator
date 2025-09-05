@@ -29,7 +29,7 @@ def main(
             typer.echo(f"  {{{field}}}")
         raise typer.Exit()
 
-    for line in lines_gen.lines_generator():
+    for line in lines_gen.generate_lines():
         print(line)
 
 
