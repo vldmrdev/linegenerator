@@ -51,16 +51,14 @@ class TestLinesGenerator:
         expected = short_line_template[1]
         assert lg._template_fields_list == expected
 
+    # fmt: off
     @pytest.mark.parametrize(
-        "line_template, expected_fields",
-        [
+        "line_template, expected_fields", [
             ("Hello {name} from {city}!", ("{name}", "{city}")),
-            (
-                "Welcome to {company}, our phone number is {phone_number}!",
-                ("{company}", "{phone_number}"),
-            ),
+            ("Welcome to {company}, our phone number is {phone_number}!", ("{company}", "{phone_number}")),
         ],
     )
+    # fmt: on
     def test_generate_lines_is_correct(self, line_template, expected_fields, generators):
         lg = LinesGenerator(line_template, generators, 3)
         results = list(lg.generate_lines())
