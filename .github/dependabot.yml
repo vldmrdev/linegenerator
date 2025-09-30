@@ -4,9 +4,9 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "chore(actions):"
+      interval: "weekly"
     commit-message:
-      prefix: ⬆
+      prefix: "chore(actions):"
   # Python
   - package-ecosystem: "pip"
     directory: "/"
