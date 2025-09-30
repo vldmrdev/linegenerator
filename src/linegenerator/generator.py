@@ -45,6 +45,7 @@ class Generators:
         Raises:
             ValueError: If no generator exists with the given name.
         """
+
         if name not in self.__generators:
             raise ValueError(f"Invalid generator name: '{name}'")
         return self.__generators.get(name)  # type: ignore
@@ -79,7 +80,7 @@ class LinesGenerator:
     """
 
     def __init__(self, line_template: str, data_generator: Generators, line_count: int = 1) -> None:
-        self.line_template: str = line_template
+        self.line_template: str = line_template  # TODO: template's placeholder fixer
         self.data_generator: Generators = data_generator
         self.line_count: int = line_count
         self._template_fields_list: list = self._extract_fields(self.line_template)
@@ -97,17 +98,18 @@ class LinesGenerator:
     def _extract_fields(self, template: str) -> list[str]:
         """Extracts placeholder field names from a template string.
 
-        Supports placeholders in the format {field}, { field }, or {field }.
+        Supports placeholders in the only {field} format, without spaces.
 
         Args:
             template (str): The template string containing placeholders.
         Returns:
             list[str]: A list of field names extracted from the template.
         Example:
-            >>> self._extract_fields("Hello {name}! You live in { city }?")
+            >>> self._extract_fields("Hello {name}! You live in {city}?")
             ['name', 'city']
         """
-        return re.findall(r"\{\s*([^}]+?)\s*}", template)
+
+        return re.findall(r"\{([^}]*)\}", template)
 
     def generate_lines(self) -> Generator[str, None, None]:
         """Generates multiple formatted lines lazily (one at a time).
@@ -127,8 +129,10 @@ class LinesGenerator:
         for _ in range(self.line_count):
             for field, generator in fields_generators.items():
                 generated_data[field] = generator()
+            # TODO: bug - user template with space in placeholders can't match fields_generators dict
             yield self.line_template.format(**generated_data)
 
 
+# TODO: No space
 # TODO: add locales option
 # TODO: add export to file option

@@ -35,3 +35,5 @@ def main(
 
 if __name__ == "__main__":
     app()
+
+# TODO: add --debug option for showing placeholder syntax errors like {name  } or {} or { name  }, etc.

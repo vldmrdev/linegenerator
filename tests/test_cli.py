@@ -23,3 +23,13 @@ class TestLinegeneratorCli:
         )
         assert result.exit_code == 0
         assert "UNKNOWN_field_" in result.output
+
+    def test_linegenerator_cli_when_placeholders_with_space(self):
+        result = runner.invoke(
+            app, ["--template", "Hello, {name }, welcome to { city }!", "--count", "1"]
+        )
+        print(result.output)
+        print(result.exception)
+        assert result.exit_code == 0
+        assert "{name }" not in result.output
+        assert "{ city }" not in result.output
