@@ -25,15 +25,19 @@ class Generators:
             "city": self.synthetic_generator.city,
             "company": self.synthetic_generator.company,
             "job": self.synthetic_generator.job,
-            "date": self.synthetic_generator.date_object,
+            "date": self.synthetic_generator.date,
             "address": self.synthetic_generator.address,
         }
 
-    def __setattr__(self, key: str, value: object) -> None:
-        """Class attributes validator"""
-        if key == "synthetic_generator" and not isinstance(value, Faker):
-            raise TypeError("synth_generator must be an instance of Faker.")
-        super().__setattr__(key, value)
+    @property
+    def synthetic_generator(self) -> Faker:
+        return self._synthetic_generator
+
+    @synthetic_generator.setter
+    def synthetic_generator(self, value: Faker) -> None:
+        if not isinstance(value, Faker):
+            raise TypeError("synth_generator must be a Faker instance.")
+        self._synthetic_generator = value
 
     def get_generator(self, name: str) -> Callable[..., str]:
         """Returns a callable generator by its name.
@@ -71,6 +75,7 @@ class LinesGenerator:
 
     This class takes a template string with placeholders (e.g., {name}, {city}),
     replaces them with synthetic data from a Generators instance, and produces one or more lines.
+    Important note: NO space in placeholders, only {name}, { name } or {name }, etc. are wrong.
 
     Attributes:
         line_template (str): The template string with placeholders.
@@ -80,7 +85,7 @@ class LinesGenerator:
     """
 
     def __init__(self, line_template: str, data_generator: Generators, line_count: int = 1) -> None:
-        self.line_template: str = line_template  # TODO: template's placeholder fixer
+        self.line_template: str = line_template
         self.data_generator: Generators = data_generator
         self.line_count: int = line_count
         self._template_fields_list: list = self._extract_fields(self.line_template)
@@ -129,10 +134,8 @@ class LinesGenerator:
         for _ in range(self.line_count):
             for field, generator in fields_generators.items():
                 generated_data[field] = generator()
-            # TODO: bug - user template with space in placeholders can't match fields_generators dict
             yield self.line_template.format(**generated_data)
 
 
-# TODO: No space
 # TODO: add locales option
 # TODO: add export to file option
