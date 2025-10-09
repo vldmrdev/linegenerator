@@ -4,6 +4,10 @@ from faker import Faker
 from linegenerator import Generators, LinesGenerator
 
 
+class FakeFaker:
+    pass
+
+
 class TestGenerators:
     """Test: Generators class methods"""
 
@@ -28,8 +32,8 @@ class TestGenerators:
 
     def test_hack_generators_dict(self):
         """Test: delete generator by name from returned default generator's dict"""
-        fake = Faker()
-        generators = Generators(fake)
+        faker = Faker()
+        generators = Generators(faker)
 
         original_count = len(generators.get_all_generators())
         original_has_name = generators.has_generator("name")
@@ -41,6 +45,12 @@ class TestGenerators:
         assert len(generators.get_all_generators()) == original_count
         assert generators.has_generator("name") == original_has_name
         assert "name" in generators.get_all_generators()
+
+    # Negative tests
+
+    def test_generators_class_when_generator_not_Faker(self):
+        with pytest.raises(TypeError, match="synth_generator must be a Faker instance."):
+            generators = Generators(FakeFaker())
 
 
 class TestLinesGenerator:
