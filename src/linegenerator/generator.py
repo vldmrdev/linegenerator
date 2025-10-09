@@ -1,4 +1,6 @@
+import random
 import re
+from datetime import timezone
 from typing import Callable, Generator
 
 from faker import Faker
@@ -19,14 +21,18 @@ class Generators:
     def __init__(self, synthetic_generator: Faker) -> None:
         self.synthetic_generator: Faker = synthetic_generator
         self.__generators: dict[str, Callable[..., str]] = {
+            "ipv4_public": self.synthetic_generator.ipv4_public,
+            "timestamp": self.timestamp,
+            "http_method": self.synthetic_generator.http_method,
+            "uri_path": self.synthetic_generator.uri_path,
+            "user_agent": self.synthetic_generator.user_agent,
+            "response_size": self.response_size,
+            "http_status_code": self.http_status_code,
+            "safe_referer_url": self.synthetic_generator.safe_domain_name,
+            "referer_url": self.synthetic_generator.domain_name,
             "name": self.synthetic_generator.name,
-            "email": self.synthetic_generator.email,
-            "phone_number": self.synthetic_generator.phone_number,
             "city": self.synthetic_generator.city,
-            "company": self.synthetic_generator.company,
-            "job": self.synthetic_generator.job,
-            "date": self.synthetic_generator.date,
-            "address": self.synthetic_generator.address,
+            "email": self.synthetic_generator.email,
         }
 
     @property
@@ -36,8 +42,23 @@ class Generators:
     @synthetic_generator.setter
     def synthetic_generator(self, value: Faker) -> None:
         if not isinstance(value, Faker):
-            raise TypeError("synth_generator must be a Faker instance.")
+            raise TypeError("synthetic_generator must be a Faker instance.")
         self._synthetic_generator = value
+
+    def timestamp(self) -> str:
+        """Generate timestamp like 10/Oct/2047:13:55:36 +0000"""
+        dt = self.synthetic_generator.date_time(tzinfo=timezone.utc)
+        formatted_date = dt.strftime("%d/%b/%Y:%H:%M:%S") + " +0000"
+        return formatted_date
+
+    def response_size(self) -> str:
+        response_size = random.randint(100, 5000)
+        return str(response_size)
+
+    def http_status_code(self) -> str:
+        """Generate most frequently used codes HTTP status code"""
+        status_code = random.choice([200, 201, 301, 302, 400, 401, 403, 404, 500])
+        return str(status_code)
 
     def get_generator(self, name: str) -> Callable[..., str]:
         """Returns a callable generator by its name.
