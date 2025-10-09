@@ -49,7 +49,7 @@ class TestGenerators:
     # Negative tests
 
     def test_generators_class_when_generator_not_Faker(self):
-        with pytest.raises(TypeError, match="synth_generator must be a Faker instance."):
+        with pytest.raises(TypeError, match="synthetic_generator must be a Faker instance."):
             generators = Generators(FakeFaker())
 
 

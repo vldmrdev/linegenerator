@@ -72,3 +72,6 @@ class TestLinegeneratorCli:
             app, ["custom", "--blablabla", "Hello, {name}, welcome to {city}!", "--count", "1"]
         )
         assert result.exit_code != 0
+
+
+# TODO: add test for presets
