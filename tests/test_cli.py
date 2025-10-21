@@ -1,6 +1,6 @@
 from typer.testing import CliRunner
 
-from linegenerator.cli import app
+from linegenerator.core.cli import app
 
 runner = CliRunner()
 

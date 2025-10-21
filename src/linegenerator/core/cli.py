@@ -1,8 +1,8 @@
 import typer
 from faker import Faker
 
-from linegenerator.generator import Generators, LinesGenerator
-from linegenerator.presets import LogPreset
+from linegenerator.core.generator import Generators, LinesGenerator
+from linegenerator.core.presets import LogPreset
 
 # from typing_extensions import Annotated
 

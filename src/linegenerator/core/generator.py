@@ -30,7 +30,7 @@ class Generators:
             "http_status_code": self.http_status_code,
             "safe_referer_url": self.synthetic_generator.safe_domain_name,
             "referer_url": self.synthetic_generator.domain_name,
-            "name": self.synthetic_generator.name,
+            "name": self.synthetic_generator.name,  # TODO: remove unused generators
             "city": self.synthetic_generator.city,
             "email": self.synthetic_generator.email,
         }
@@ -134,7 +134,6 @@ class LinesGenerator:
             >>> self._extract_fields("Hello {name}! You live in {city}?")
             ['name', 'city']
         """
-
         return re.findall(r"\{([^}]*)\}", template)
 
     def generate_lines(self) -> Generator[str, None, None]:
@@ -154,9 +153,10 @@ class LinesGenerator:
                 generated_data[field] = f"UNKNOWN_field_[{field}]"
         for _ in range(self.line_count):
             for field, generator in fields_generators.items():
-                generated_data[field] = generator()
+                generated_data[field] = generator()  #
             yield self.line_template.format(**generated_data)
 
 
 # TODO: add locales option
 # TODO: add export to file option
+# TODO: sanitizing dangerous fields from template

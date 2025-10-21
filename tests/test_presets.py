@@ -1,6 +1,6 @@
 import pytest
 
-from linegenerator.presets import LogPreset
+from linegenerator.core.presets import LogPreset
 
 # TODO: add tests
 
@@ -25,12 +25,10 @@ class TestLogPreset:
         assert LogPreset.get_preset("Nginx") is LogPreset.NGINX
 
     def test_get_invalid_preset_raises_error(self):
-        """Метод get_preset() должен выбрасывать ValueError при неверном имени"""
         with pytest.raises(ValueError, match="Unknown preset 'unknown'"):
             LogPreset.get_preset("unknown")
 
     def test_get_invalid_preset_includes_available_list(self):
-        """Сообщение об ошибке должно содержать список доступных пресетов"""
         try:
             LogPreset.get_preset("unknown")
             pytest.fail("Expected ValueError")
@@ -40,9 +38,7 @@ class TestLogPreset:
             assert "Available:" in msg
 
     def test_member_names_are_correct(self):
-        """Проверяем, что _member_names_ содержит правильные имена"""
         assert "NGINX" in LogPreset._member_names_
 
     def test_direct_access_via_enum_name(self):
-        """Прямой доступ к .NGINX работает"""
         assert LogPreset["NGINX"] is LogPreset.NGINX

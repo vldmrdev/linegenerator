@@ -1,4 +1,4 @@
-from .generator import Generators, LinesGenerator
+from linegenerator.core.generator import Generators, LinesGenerator
 
 __all__ = ["Generators", "LinesGenerator"]
 
