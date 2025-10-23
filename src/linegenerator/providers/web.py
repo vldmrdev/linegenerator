@@ -2,6 +2,7 @@ import random
 
 from linegenerator.core.provider import BaseProvider
 
+
 #  TODO
 class HttpProvider(BaseProvider):
     METHODS = ["GET", "POST", "PUT", "DELETE", "HEAD", "PATCH"]
@@ -36,19 +37,20 @@ class HttpProvider(BaseProvider):
         return random.choice(["-", "https://example.com", "https://google.com/search?q=test"])
 
     def _user_agent(self):
-        return random.choice([
-            "-",
-            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36",
-            "curl/7.68.0",
-            "python-requests/2.28.1"
-        ])
+        return random.choice(
+            [
+                "-",
+                "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36",
+                "curl/7.68.0",
+                "python-requests/2.28.1",
+            ]
+        )
 
     def get_generators(self):
         return {
             "http_method": self._http_method,
             "uri_path": self._uri_path,
             "http_status_code": self._http_status_code,
-            "status": self._http_status_code,  # alias for FASTAPI/APACHE
             "status_text": self._status_text,
             "response_size": self._response_size,
             "size": self._response_size,  # alias for APACHE

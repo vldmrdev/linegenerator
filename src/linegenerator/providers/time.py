@@ -11,9 +11,7 @@ class TimeProvider(BaseProvider):
         if start and not isinstance(start, datetime):
             raise TypeError(f"start should be an instance of datetime, but got {type(start)}")
         if interval and not isinstance(interval, timedelta):
-            raise TypeError(
-                f"interval should be an instance of timedelta, but got {type(interval)}"
-            )
+            raise TypeError(f"interval should be an instance of timedelta, but got {type(interval)}")
 
         self._initial_start = start or datetime.now()
         self._interval = interval or timedelta(seconds=1)

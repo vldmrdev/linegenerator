@@ -2,7 +2,7 @@ from faker import Faker
 
 
 class GeneratorRegistry:
-    def __init__(self):
+    def __init__(self) -> None:
         self._generators = {}
 
     def register(self, name: str, callable_gen):
@@ -19,6 +19,7 @@ class GeneratorRegistry:
         registers "time_iso_timestamp", "time_nginx_timestamp", etc.
         """
         import inspect
+
         for name, method in inspect.getmembers(provider_instance, predicate=inspect.ismethod):
             if not name.startswith("_"):
                 full_name = f"{prefix}_{name}" if prefix else name
@@ -26,8 +27,7 @@ class GeneratorRegistry:
 
 
 def create_default_registry(
-        faker_locale: str = "en_US",
-        faker_seed: int | None = None
+    faker_locale: str = "en_US", faker_seed: int | None = None
 ) -> GeneratorRegistry:
     registry = GeneratorRegistry()
 

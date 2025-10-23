@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import Dict, Callable
+from typing import Callable, Dict
 
 
 class BaseProvider(ABC):
