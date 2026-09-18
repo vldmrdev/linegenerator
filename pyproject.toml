@@ -62,7 +62,7 @@ test = [
 ]
 lint = [
     "ruff >= 0.13.3",
-    "black >= 25.9.0",
+    "black >= 25.11.0",
     "isort >= 6.1.0",
     "mypy >= 1.19.1",
     "bandit >= 1.8.6"
