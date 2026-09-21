@@ -65,7 +65,7 @@ lint = [
     "black >= 25.11.0",
     "isort >= 6.1.0",
     "mypy >= 1.19.1",
-    "bandit >= 1.8.6"
+    "bandit >= 1.9.4"
 ]
 dev = [
     "pre-commit"
