@@ -31,7 +31,7 @@ classifiers = [
     "Programming Language :: Python :: 3.13",
 ]
 dependencies = [
-    "typer >= 0.23.2",
+    "typer >= 0.27.3",
     "faker >= 40.43.0",
 ]
 
