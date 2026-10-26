@@ -61,7 +61,7 @@ test = [
     "pytest-mock >= 3.16.0"
 ]
 lint = [
-    "ruff >= 0.17.1",
+    "ruff >= 0.17.2",
     "black >= 25.11.0",
     "isort >= 9.0.2",
     "mypy >= 2.3.1",
